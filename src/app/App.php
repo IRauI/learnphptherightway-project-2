@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App;
 
+/**
+ * Contains a single db instance to be used by all other classes
+ */
 class App
 {
     protected static DB $db;
 
-    public function __construct()
+    public function __construct(protected Router $router, protected array $request, protected Config $config)
     {
         $env = [
             'driver'   => $_ENV['DB_DRIVER'],
@@ -23,6 +26,20 @@ class App
     static function DB() : DB 
     {
         return static::$db;
+    }
+
+    public function run() : void 
+    {
+        try{
+            echo $this->router->resolve(
+                $this->request['uri'],
+                strtolower($this->request['method'])
+            );
+        }catch(Exceptions\RouteNotFoundException $e){
+            http_response_code(404);
+
+            echo View::make('error/404');
+        }
     }
 
 }

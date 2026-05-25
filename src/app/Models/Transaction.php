@@ -7,6 +7,7 @@ namespace App\Models;
 use App\App;
 use App\DB;
 
+
 class Transaction
 {
     private DB $db;
@@ -15,13 +16,17 @@ class Transaction
         $this->db = App::DB();
     }
 
-    public function create(string $date, string $check, string $description, float $amount)
+    /**
+     * Creates a transaction to save in the database
+     */
+    public function create(string $date, string $check, string $description, string $amount)
     {
-        $stmt = $this->db->prepare('INSERT INTO transactions (date, check, description, amount)
+        $stmt = $this->db->prepare('INSERT INTO transactions (date, check_id, description, amount)
                             VALUES (?,?,?,?)');
         
         $stmt->execute([$date,$check,$description,$amount]);
 
         return (int) $this->db->lastInsertId();
     }
+
 }

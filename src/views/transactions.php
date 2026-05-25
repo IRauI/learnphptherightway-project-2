@@ -34,20 +34,30 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- TODO -->
+                <?php 
+                    $transactions = $this->params['transactions'];
+                    foreach($transactions as $transaction):
+                ?>
+                <tr>
+                    <td><?php echo $transaction['date'];?></td>
+                    <td><?php echo $transaction['check_id'];?></td>
+                    <td><?php echo $transaction['description'];?></td>
+                    <td style="color:<?php echo $transaction['amount'][1] == '-' ? 'red' : 'green'; ?>"><?php echo trim($transaction['amount'],'"');?></td>
+                </tr>
+                <?php endforeach ?>
             </tbody>
             <tfoot>
                 <tr>
                     <th colspan="3">Total Income:</th>
-                    <td><!-- TODO --></td>
+                    <td><?php echo $this->params['income']; ?></td>
                 </tr>
                 <tr>
                     <th colspan="3">Total Expense:</th>
-                    <td><!-- TODO --></td>
+                    <td><?php echo $this->params['expense']; ?></td>
                 </tr>
                 <tr>
                     <th colspan="3">Net Total:</th>
-                    <td><!-- TODO --></td>
+                    <td><?php echo $this->params['total']; ?></td>
                 </tr>
             </tfoot>
         </table>

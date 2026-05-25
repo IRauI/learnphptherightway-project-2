@@ -8,6 +8,9 @@ use PDO;
 use PDOException;
 use Throwable;
 
+/**
+ * Database class, composed of a PDO instance
+ */
 class DB
 {
     private PDO $db;
@@ -32,7 +35,7 @@ class DB
         }
     }
 
-    public function __call(string $name, array $arguments) : callable
+    public function __call(string $name, array $arguments)
     {
         return call_user_func_array([$this->db, $name], $arguments);
     }
